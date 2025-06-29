@@ -1,66 +1,70 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="it">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.65">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>Chat con il mio RAG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 2em auto;
+    }
+    #chatBox {
+      border: 1px solid #ccc;
+      padding: 1em;
+      height: 300px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+    .msg {
+      margin: 0.5em 0;
+    }
+    .user {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .bot {
+      font-weight: bold;
+      color: #28a745;
+    }
+    input, button {
+      margin-top: 1em;
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="it"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Chat con il mio RAG&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: Arial; max-width: 600px; margin: 2em auto; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#chatBox { border: 1px solid #ccc; padding: 1em; height: 300px; overflow-y: auto; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.msg { margin: 0.5em 0; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.user { font-weight: bold; color: #007bff; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.bot { font-weight: bold; color: #28a745; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2&gt;Chat con il mio RAG&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="chatBox"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;input type="text" id="userInput" placeholder="Scrivi un messaggio..." style="width: 80%;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;button onclick="sendMessage()"&gt;Invia&lt;/button&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const chatBox = document.getElementById("chatBox");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function sendMessage() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const input = document.getElementById("userInput");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const message = input.value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!message) return;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Mostra messaggio utente</p>
-<p class="p1"><span class="Apple-converted-space">      </span>chatBox.innerHTML += `&lt;div class="msg"&gt;&lt;span class="user"&gt;Tu:&lt;/span&gt; ${message}&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>input.value = "";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const res = await fetch("https://n8n.ilariabassifotografie.com/webhook/8e1f684f-9165-4915-918a-1ed719a60ca1/chat", {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>method: "POST",</p>
-<p class="p1"><span class="Apple-converted-space">          </span>headers: { "Content-Type": "application/json" },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>body: JSON.stringify({ message })</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const data = await res.json();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const reply = data.response?.body || data.output || "Errore: nessuna risposta dal RAG.";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>chatBox.innerHTML += `&lt;div class="msg"&gt;&lt;span class="bot"&gt;RAG:&lt;/span&gt; ${reply}&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>chatBox.scrollTop = chatBox.scrollHeight;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>chatBox.innerHTML += `&lt;div class="msg"&gt;&lt;span class="bot"&gt;RAG:&lt;/span&gt; Errore di rete o JSON&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <h2>Chat con il mio RAG</h2>
+  <div id="chatBox"></div>
+  <input type="text" id="userInput" placeholder="Scrivi un messaggio..." style="width: 80%;">
+  <button onclick="sendMessage()">Invia</button>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      if (!message) return;
+
+      chatBox.innerHTML += `<div class="msg"><span class="user">Tu:</span> ${message}</div>`;
+      input.value = "";
+
+      try {
+        const res = await fetch("https://n8n.ilariabassifotografie.com/webhook/8e1f684f-9165-4915-918a-1ed719a60ca1/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        const reply = data.response?.body || data.output || "Errore: nessuna risposta dal RAG.";
+
+        chatBox.innerHTML += `<div class="msg"><span class="bot">RAG:</span> ${reply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (error) {
+        chatBox.innerHTML += `<div class="msg"><span class="bot">RAG:</span> Errore di rete o JSON</div>`;
+      }
+    }
+  </script>
 </body>
 </html>
