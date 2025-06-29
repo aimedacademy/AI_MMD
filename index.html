@@ -41,12 +41,23 @@
   <script>
     const chatBox = document.getElementById("chatBox");
 
+    function appendMessage(className, label, text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'msg';
+      const span = document.createElement('span');
+      span.className = className;
+      span.textContent = label;
+      msgDiv.appendChild(span);
+      msgDiv.appendChild(document.createTextNode(' ' + text));
+      chatBox.appendChild(msgDiv);
+    }
+
     async function sendMessage() {
       const input = document.getElementById("userInput");
       const message = input.value.trim();
       if (!message) return;
 
-      chatBox.innerHTML += `<div class="msg"><span class="user">Tu:</span> ${message}</div>`;
+      appendMessage('user', 'Tu:', message);
       input.value = "";
 
       try {
@@ -59,10 +70,10 @@
         const data = await res.json();
         const reply = data.response?.body || data.output || "Errore: nessuna risposta dal RAG.";
 
-        chatBox.innerHTML += `<div class="msg"><span class="bot">RAG:</span> ${reply}</div>`;
+        appendMessage('bot', 'RAG:', reply);
         chatBox.scrollTop = chatBox.scrollHeight;
       } catch (error) {
-        chatBox.innerHTML += `<div class="msg"><span class="bot">RAG:</span> Errore di rete o JSON</div>`;
+        appendMessage('bot', 'RAG:', 'Errore di rete o JSON');
       }
     }
   </script>
